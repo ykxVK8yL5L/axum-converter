@@ -1,15 +1,12 @@
-FROM alpine:latest
+FROM tindy2013/subconverter:latest
 ARG TARGETARCH
-ARG TARGETVARIANT
-RUN apk --no-cache add ca-certificates tini
-RUN apk add tzdata && \
-	cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-	echo "Asia/Shanghai" > /etc/timezone && \
-	apk del tzdata
-
+ARG TARGETVARIANT	
 RUN mkdir -p /etc/pikpak-webdav
 WORKDIR /root/
 ADD axum-subconverter-$TARGETARCH$TARGETVARIANT /usr/bin/axum-subconverter
+COPY generate.ini /root/
 
+EXPOSE 3000
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/usr/bin/axum-subconverter", "--root", "/root"]
+
