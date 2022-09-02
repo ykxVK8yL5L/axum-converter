@@ -89,7 +89,7 @@ async fn fetch_node_from_url(url:String,root:&String)->Result<String, reqwest::E
             error!("远程节点写入出错!");
         }   
     }
-    let output = Command::new("subconverter/subconverter")
+    let output = Command::new("subconverter")
     .current_dir(root)
     .arg("-g")
     .arg("-f")
