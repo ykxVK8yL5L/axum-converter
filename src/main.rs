@@ -39,11 +39,11 @@ struct State {
 async fn main() {
     tracing_subscriber::registry()
     .with(fmt::layer())
-    .with(EnvFilter::from_env("AXUM_CONVERTER_LOG"))
+    .with(EnvFilter::from_env("AXUM_SUBCONVERTER_LOG"))
     .init();
 
-    if env::var("AXUM_CONVERTER_LOG").is_err() {
-        env::set_var("AXUM_CONVERTER_LOG", "axum_converter=info");
+    if env::var("AXUM_SUBCONVERTER_LOG").is_err() {
+        env::set_var("AXUM_SUBCONVERTER_LOG", "axum_subconverter=info");
     }
 
     let args = Args::parse();
