@@ -55,10 +55,12 @@ RUN apk add tzdata && \
 	echo "Asia/Shanghai" > /etc/timezone && \
 	apk del tzdata
 
-COPY --from=builder /usr/binsubconverter /usr/bin/
+COPY --from=builder /usr/bin/subconverter /usr/bin/
+COPY generate.ini /root/
+RUN mkdir -p /root/nodes
 RUN mkdir -p /etc/axum-converter
 WORKDIR /root/
 ADD axum-converter-$TARGETARCH$TARGETVARIANT /usr/bin/axum-converter
-
+EXPOSE 3000
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["/usr/bin/axum-converter", "--root", "/etc/axum-web"]
+CMD ["/usr/bin/axum-converter", "--root", "/root"]
