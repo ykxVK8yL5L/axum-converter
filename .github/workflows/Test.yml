@@ -83,30 +83,6 @@ jobs:
       - run: |
           chmod a+x axum-converter
           mv axum-converter axum-converter-amd64
-      - uses: actions/download-artifact@v2
-        with:
-          name: i686-unknown-linux-musl-bin
-      - run: |
-          chmod a+x axum-converter
-          mv axum-converter axum-converter-386
-      - uses: actions/download-artifact@v2
-        with:
-          name: aarch64-unknown-linux-musl-bin
-      - run: |
-          chmod a+x axum-converter
-          mv axum-converter axum-converter-arm64
-      - uses: actions/download-artifact@v2
-        with:
-          name: armv7-unknown-linux-musleabihf-bin
-      - run: |
-          chmod a+x axum-converter
-          mv axum-converter axum-converter-armv7
-      - uses: actions/download-artifact@v2
-        with:
-          name: arm-unknown-linux-musleabihf-bin
-      - run: |
-          chmod a+x axum-converter
-          mv axum-converter axum-converter-armv6
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v3
