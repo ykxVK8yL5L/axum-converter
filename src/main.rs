@@ -105,7 +105,7 @@ async fn fetch_node_from_url(url:String,root:&String)->Result<String, reqwest::E
     let nodes = Path::new(root).join("nodes");
     let result_path = Path::new(root).join("result.txt");
     let mut f = fs::File::create(&result_path).expect("Unable to create file");
-    for entry in WalkDir::new(nodes) {
+    for entry in WalkDir::new(&nodes) {
         match  entry{
             Ok(entry)=>{
                 debug!("read file:{}",entry.path().display());
@@ -140,8 +140,8 @@ async fn fetch_node_from_url(url:String,root:&String)->Result<String, reqwest::E
         }
     }
     
-    //fs::remove_dir_all(nodes).unwrap();
-    //fs::create_dir(nodes).unwrap();
+    fs::remove_dir_all(&nodes).unwrap();
+    fs::create_dir(&nodes).unwrap();
 
     let nodes_result = fs::read_to_string(&result_path.to_str().unwrap());
     Ok(encode(nodes_result.unwrap()))
