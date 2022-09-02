@@ -1,4 +1,4 @@
-FROM alpine:3.16 AS builder
+FROM alpine:3.16 
 LABEL maintainer "tindy.it@gmail.com"
 ARG THREADS="4"
 ARG SHA=""
@@ -44,9 +44,7 @@ RUN apk add --no-cache --virtual .build-tools git g++ build-base linux-headers c
     rm -rf subconverter quickjspp libcron toml11 /usr/lib/lib*.a /usr/include/* /usr/local/include/lib*.a /usr/local/include/* && \
     apk add --no-cache --virtual subconverter-deps pcre2 libcurl yaml-cpp libevent && \
     apk del .build-tools .build-deps
-
-
-FROM alpine:latest
+    
 ARG TARGETARCH
 ARG TARGETVARIANT
 RUN apk --no-cache add ca-certificates tini
@@ -54,11 +52,9 @@ RUN apk add tzdata && \
 	cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
 	echo "Asia/Shanghai" > /etc/timezone && \
 	apk del tzdata
-
-COPY --from=builder /usr/bin/subconverter /usr/bin/
 COPY generate.ini /root/
 RUN mkdir -p /root/nodes
-RUN mkdir -p /etc/axum-converter
+
 WORKDIR /root/
 ADD axum-converter-$TARGETARCH$TARGETVARIANT /usr/bin/axum-converter
 EXPOSE 3000
