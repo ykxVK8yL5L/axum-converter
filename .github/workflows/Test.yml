@@ -1,4 +1,4 @@
-name: Release For Linux And Docker
+name: Test For Linux And Docker
 
 on:
   repository_dispatch:
