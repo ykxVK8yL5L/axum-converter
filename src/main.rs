@@ -139,6 +139,9 @@ async fn fetch_node_from_url(url:String,root:&String)->Result<String, reqwest::E
             }
         }
     }
+    
+    fs::remove_dir_all(nodes).unwrap();
+    fs::create_dir(nodes).unwrap();
 
     let nodes_result = fs::read_to_string(&result_path.to_str().unwrap());
     Ok(encode(nodes_result.unwrap()))
