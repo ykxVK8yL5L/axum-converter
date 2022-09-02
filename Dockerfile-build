@@ -46,7 +46,6 @@ RUN apk add --no-cache --virtual .build-tools git g++ build-base linux-headers c
     apk del .build-tools .build-deps
 
 
-
 FROM alpine:latest
 ARG TARGETARCH
 ARG TARGETVARIANT
