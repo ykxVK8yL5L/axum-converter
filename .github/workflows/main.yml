@@ -39,7 +39,7 @@ jobs:
           target: ${{ matrix.platform.target }}
           manylinux: auto
           container: off
-          args: --no-sdist --release -o dist --strip --cargo-extra-args="--no-default-features --features rustls-tls"
+          args: --release -o dist --strip
       - name: Build wheels - musllinux
         if: matrix.platform.wheel
         uses: messense/maturin-action@v1
@@ -47,7 +47,7 @@ jobs:
           target: ${{ matrix.platform.target }}
           manylinux: musllinux_1_1
           container: off
-          args: --no-sdist --release -o dist --strip --cargo-extra-args="--no-default-features --features rustls-tls"
+          args: --release -o dist --strip
       - name: Install cargo packages
         if: matrix.platform.deb
         run: |
