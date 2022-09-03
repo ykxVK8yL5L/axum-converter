@@ -23,11 +23,7 @@ jobs:
       with:
         persist-credentials: false 
         fetch-depth: 0 
-    - name: RunUTC
-      id: RunUTC
-      run: |
-        echo `date`
-        
+  
     - uses: szenius/set-timezone@v1.0
       with:
         timezoneLinux: "Asia/Shanghai"
