@@ -1,0 +1,36 @@
+name: Test for schedule except for 0-6 beijing
+on:
+    workflow_dispatch:
+    schedule:
+     - cron: "0 4-10 * * *"
+#   watch:
+#     types: started
+env:
+  TZ: Asia/Shanghai
+  
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    
+    name: Update Packages
+    strategy:
+      fail-fast: false
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false 
+        fetch-depth: 0 
+        
+    - uses: szenius/set-timezone@v1.0
+      with:
+        timezoneLinux: "Asia/Shanghai"
+        
+    - name: Run
+      id: run
+      run: |
+        echo `date`
+    
+       
