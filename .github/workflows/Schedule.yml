@@ -2,7 +2,7 @@ name: Test for schedule except for 0-6 beijing
 on:
     workflow_dispatch:
     schedule:
-     - cron: "0 4-10 * * *"
+     - cron: "0 14-20 * * *"
 #   watch:
 #     types: started
 env:
