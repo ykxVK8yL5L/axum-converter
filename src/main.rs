@@ -88,7 +88,7 @@ async fn fetch_node_from_url(target:String,url:String,root:&String)->Result<Stri
     let res = reqwest::get(url).await?;
     let body = res.text().await?;
     let fetch_path = Path::new(root).join("fetchnode");
-    let targets: Vec<&str> = target.split(',').collect();
+    let targets: Vec<&str> = target.split('-').collect();
     let mut output = fs::File::create(fetch_path).unwrap();
     match  write!(output, "{}", &body){
         Ok(_)=>{
