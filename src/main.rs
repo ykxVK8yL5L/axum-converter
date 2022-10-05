@@ -60,9 +60,10 @@ async fn main() {
 
 async fn handler(Query(params): Query<Params>,state: Extension<Arc<State>>) -> String {
     debug!("{}", state.args.root);
+    let target=params.target.unwrap();
     match params.url{
         Some(url)=>{
-            match fetch_node_from_url(url,&state.args.root).await {
+            match fetch_node_from_url(target,url,&state.args.root).await {
                 Ok(result)=>result,
                 Err(e)=>"获取节点失败".to_string(),
             }
@@ -76,10 +77,11 @@ async fn handler(Query(params): Query<Params>,state: Extension<Arc<State>>) -> S
 }
 
 
-async fn fetch_node_from_url(url:String,root:&String)->Result<String, reqwest::Error>{
+async fn fetch_node_from_url(target:String,url:String,root:&String)->Result<String, reqwest::Error>{
     let res = reqwest::get(url).await?;
     let body = res.text().await?;
     let fetch_path = Path::new(root).join("fetchnode");
+    let targets: Vec<&str> = target.split(',').collect();
     let mut output = fs::File::create(fetch_path).unwrap();
     match  write!(output, "{}", &body){
         Ok(_)=>{
@@ -112,6 +114,11 @@ async fn fetch_node_from_url(url:String,root:&String)->Result<String, reqwest::E
                 if !entry.path().to_str().unwrap().ends_with(".txt") {
                     continue;
                 }
+                let file_full_name = entry.file_name().to_str().unwrap();
+                let filename = file_full_name.get(0..(file_full_name.len()-4)).unwrap();
+                if !targets.contains(&filename) { 
+                    continue;
+                } 
                 match  fs::read_to_string(entry.path()) {
                     Ok(result)=>{
                         match decode(result){
@@ -154,5 +161,6 @@ async fn fetch_node_from_url(url:String,root:&String)->Result<String, reqwest::E
 #[derive(Debug, Deserialize)]
 #[allow(dead_code)]
 struct Params {
+    target:Option<String>,
     url: Option<String>,
 }
