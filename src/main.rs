@@ -49,13 +49,20 @@ async fn main() {
     let args = Args::parse();
     let state = Arc::new(State { args});
 
-    let app =  Router::new().route("/", get(handler)).layer(Extension(state));
+    let app =  Router::new()
+        .route("/", get(handler))
+        .route("/sub", get(handler))
+        .layer(Extension(state));
 
     info!("https://0.0.0.0:3000");
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
         .serve(app.into_make_service())
         .await
         .unwrap();
+}
+
+async fn root() -> &'static str {
+    "Hello, World!"
 }
 
 async fn handler(Query(params): Query<Params>,state: Extension<Arc<State>>) -> String {
